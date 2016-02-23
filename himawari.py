@@ -124,7 +124,7 @@ def main():
 
     flat_date = date.replace('-', '').replace(' ', '').replace(':', '')
     IMAGE_NAME= 'Himawari' + flat_date + '.png'
-    IMAGE_PATH = './images/e_imagesequence/' + IMAGE_NAME
+    IMAGE_PATH = './' + IMAGE_NAME
     IMAGE_TMP_PATH = '%s_%s' % os.path.splitext(IMAGE_PATH)    
     download_image(date)
 
