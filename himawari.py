@@ -33,7 +33,7 @@ import sys, traceback
 import requests
 import time
 import boto3
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 def _read_s3_file(s3_path, key):
     return S3.Object(s3_path, key).get()["Body"].read()
@@ -63,11 +63,16 @@ def get_latest_downloaded_image_date():
         date = None
     return date
 
-def download_image(date):
+def timestamp_image(image, date):
+    font = ImageFont.truetype('assets/CourierNew.ttf', size=40)
+    draw = ImageDraw.Draw(image)
+    draw.text((10,10), date, font=font)
+
+def download_image(timestamp):
     image = Image.new('RGB', tuple(SCALE * len(n)
                                    for n in (HORIZONTAL, VERTICAL)))    
 
-    date = date.replace('-', '/').replace(' ', '/').replace(':', '')
+    date = timestamp.replace('-', '/').replace(' ', '/').replace(':', '')
 
     for x, h in enumerate(HORIZONTAL):
         for y, v in enumerate(VERTICAL):
@@ -85,7 +90,7 @@ def download_image(date):
             image.paste(tile.resize((SCALE, SCALE), Image.BILINEAR),
                         tuple(n * SCALE for n in (x, y)))
 
-    print 'Saving image of %i tiles to %s' % (TILE_NUMBERS, IMAGE_TMP_PATH)
+    timestamp_image(image, timestamp)
     image.save(IMAGE_TMP_PATH)
 
 def main():
