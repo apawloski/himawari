@@ -134,10 +134,10 @@ def main():
     IMAGE_TMP_PATH = '%s_%s' % os.path.splitext(IMAGE_PATH)    
     download_image(date)
 
-    _write_s3_file(IMAGE_TMP_PATH, IMAGE_S3_BASE_BUCKET, IMAGE_NAME)    
+    _write_s3_file(IMAGE_TMP_PATH, IMAGE_S3_BASE_BUCKET, 'img/' + IMAGE_NAME)  
     _write_s3_file(IMAGE_TMP_PATH, IMAGE_S3_BASE_BUCKET, 'Himawari_latest.png')
 
-    os.rename(IMAGE_TMP_PATH, IMAGE_PATH)    
+    os.remove(IMAGE_TMP_PATH)
     return
 
 if __name__ == "__main__":
