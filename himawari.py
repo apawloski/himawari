@@ -110,7 +110,7 @@ def main():
     SCALE = 350
     IMAGE = 'D531106'
     HIMAWARI = 'himawari8.nict.go.jp'
-    BASE_URL = 'http://%s/img/%s' % (HIMAWARI, IMAGE)    
+    BASE_URL = 'http://%s/img/%s' % (HIMAWARI, IMAGE)
     IMAGE_S3_BASE_BUCKET = 'earth.apawloski.com'
     S3 = boto3.resource('s3')
 
@@ -125,6 +125,7 @@ def main():
     print date
     
     last_date = date
+
     _write_s3_string(last_date, IMAGE_S3_BASE_BUCKET, 'metadata/latest_date.txt')
 
     flat_date = date.replace('-', '').replace(' ', '').replace(':', '')
@@ -134,6 +135,7 @@ def main():
     download_image(date)
 
     _write_s3_file(IMAGE_TMP_PATH, IMAGE_S3_BASE_BUCKET, IMAGE_NAME)    
+    _write_s3_file(IMAGE_TMP_PATH, IMAGE_S3_BASE_BUCKET, 'Himawari_latest.png')
 
     os.rename(IMAGE_TMP_PATH, IMAGE_PATH)    
     return
