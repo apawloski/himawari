@@ -90,7 +90,7 @@ def download_image(timestamp):
             image.paste(tile.resize((SCALE, SCALE), Image.BILINEAR),
                         tuple(n * SCALE for n in (x, y)))
 
-    timestamp_image(image, timestamp)
+    timestamp_image(image, timestamp + ' UTC')
     image.save(IMAGE_TMP_PATH)
 
 def main():
@@ -135,7 +135,7 @@ def main():
     download_image(date)
 
     _write_s3_file(IMAGE_TMP_PATH, IMAGE_S3_BASE_BUCKET, 'earth_imagesequence/' + IMAGE_NAME)  
-    _write_s3_file(IMAGE_TMP_PATH, IMAGE_S3_BASE_BUCKET, 'Himawari_latest.png')
+    _write_s3_file(IMAGE_TMP_PATH, IMAGE_S3_BASE_BUCKET, 'site/Himawari_latest.png')
 
     os.remove(IMAGE_TMP_PATH)
     return
