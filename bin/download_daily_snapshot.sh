@@ -13,7 +13,7 @@ done
 # Grab the portion from today
 for t in `seq 00000 1000 150000`; do
     d=$(printf "%06d\n" $t)
-    aws s3 cp 's3://earth.apawl.com/earth_imagesequence/Himawari$today$d.png' . --region us-east-1
+    aws s3 cp "s3://earth.apawl.com/earth_imagesequence/Himawari$today$d.png" . --region us-east-1
 done
 
 
