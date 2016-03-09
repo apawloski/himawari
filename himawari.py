@@ -74,12 +74,14 @@ def download_image(timestamp):
 
     date = timestamp.replace('-', '/').replace(' ', '/').replace(':', '')
 
+    
     for x, h in enumerate(HORIZONTAL):
         for y, v in enumerate(VERTICAL):
             try:
                 response = session.get('%s/%dd/550/%s_%d_%d.png' %
                                        (BASE_URL, TILE_NUMBERS, date, h, v),
                                        stream=True)
+                
                 if response.status_code != 200:
                     continue
                 tile = Image.open(response.raw)    
@@ -111,10 +113,11 @@ def main():
     IMAGE = 'D531106'
     HIMAWARI = 'himawari8.nict.go.jp'
     BASE_URL = 'http://%s/img/%s' % (HIMAWARI, IMAGE)
-    IMAGE_S3_BASE_BUCKET = 'earth.apawloski.com'
+    IMAGE_S3_BASE_BUCKET = 'earth.apawl.com'
     S3 = boto3.resource('s3')
 
     session = requests.Session()
+    session.mount('http://', requests.adapters.HTTPAdapter(max_retries=10))
 
     date = get_latest_image_date()
     last_date = get_latest_downloaded_image_date()
